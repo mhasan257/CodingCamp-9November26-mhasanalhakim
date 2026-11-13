@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense &amp; Budget Visualizer</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+
+  <header>
+    <h1>Expense &amp; Budget Visualizer</h1>
+    <button id="theme-toggle" aria-label="Toggle dark/light mode">&#x2600;</button>
+  </header>
+
+  <main>
+    <!-- Balance Card -->
+    <section class="card" id="balance-card">
+      <p class="balance-label">TOTAL BALANCE</p>
+      <span id="balance-display">$0.00</span>
+      <div id="limit-warning" role="status" class="limit-warning hidden">Spending limit exceeded!</div>
+    </section>
+
+    <!-- Spending Limit -->
+    <section class="card" id="limit-section">
+      <h2>Spending Limit</h2>
+      <div class="input-row">
+        <input type="number" id="limit-input" aria-label="Spending limit" placeholder="Set spending limit..." min="0" step="0.01">
+        <button id="limit-save-btn">Set Limit</button>
+        <button id="limit-clear-btn">Clear</button>
+      </div>
+    </section>
+
+    <!-- Add Transaction Form -->
+    <section class="card" id="form-section">
+      <h2>Add Transaction</h2>
+      <form id="transaction-form" novalidate>
+        <div class="form-group">
+          <label for="item-name">Item Name</label>
+          <input type="text" id="item-name" aria-describedby="name-error" placeholder="e.g. Coffee" maxlength="100">
+          <span class="error-msg" aria-live="polite" id="name-error"></span>
+        </div>
+        <div class="form-group">
+          <label for="amount">Amount</label>
+          <input type="number" id="amount" aria-describedby="amount-error" placeholder="0.00" min="0.01" step="0.01">
+          <span class="error-msg" aria-live="polite" id="amount-error"></span>
+        </div>
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select id="category" aria-describedby="category-error">
+            <option value="" disabled selected>Select category</option>
+            <option value="Food">Food</option>
+            <option value="Transport">Transport</option>
+            <option value="Fun">Fun</option>
+          </select>
+          <span class="error-msg" aria-live="polite" id="category-error"></span>
+        </div>
+        <button type="submit" id="add-btn">Add Transaction</button>
+      </form>
+    </section>
+
+    <!-- Custom Categories -->
+    <section class="card" id="category-section">
+      <h2>Custom Categories</h2>
+      <div class="input-row">
+        <input type="text" id="custom-category-input" aria-label="New category name" aria-describedby="category-add-error" placeholder="New category name...">
+        <button id="add-category-btn">Add Category</button>
+      </div>
+      <span class="error-msg" aria-live="polite" id="category-add-error"></span>
+    </section>
+
+    <!-- Sort Transactions -->
+    <section class="card" id="sort-section">
+      <h2>Sort Transactions</h2>
+      <button class="sort-btn active" aria-pressed="true" data-sort="default">Default</button>
+      <button class="sort-btn" aria-pressed="false" data-sort="amount-asc">Amount Up</button>
+      <button class="sort-btn" aria-pressed="false" data-sort="amount-desc">Amount Down</button>
+      <button class="sort-btn" aria-pressed="false" data-sort="category-asc">Category A-Z</button>
+    </section>
+
+    <!-- Transaction List + Pie Chart (two-column on desktop) -->
+    <div class="two-col-grid">
+      <section class="card" id="list-section">
+        <h2>Transactions</h2>
+        <div id="transaction-list">
+          <p class="empty-state">No transactions yet.</p>
+        </div>
+      </section>
+
+      <section class="card" id="chart-section">
+        <h2>Spending by Category</h2>
+        <canvas id="spending-chart" role="img" aria-label="Spending distribution by category" hidden></canvas>
+        <p id="chart-no-data" class="empty-state">No spending data available.</p>
+      </section>
+    </div>
+
+    <!-- Monthly Summary -->
+    <section class="card" id="monthly-section">
+      <h2>Monthly Summary</h2>
+      <div id="monthly-summary">
+        <p class="empty-state">No spending data to summarize.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Storage error warning -->
+  <div id="warning-banner" class="warning-banner hidden" role="alert">
+    Storage error. Some data may not have been saved.
+  </div>
+
+</body>
+</html>
